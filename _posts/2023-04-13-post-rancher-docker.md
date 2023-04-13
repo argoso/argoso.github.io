@@ -70,8 +70,8 @@ DNS
 cat <<EOF | tee /etc/resolv.conf
 domain    example.com
 search    example.com
-nameserver  192.168.1.166
-nameserver  192.168.1.168
+nameserver  192.168.1.1
+nameserver  192.168.1.101
 nameserver  192.168.1.100
 options timeout:2
 EOF
