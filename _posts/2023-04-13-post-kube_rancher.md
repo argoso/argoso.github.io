@@ -1,5 +1,5 @@
 ---
-title: "Post: Kubernetes node for Rancher on Debian 11."
+title: "Post: Kubernetes node for Rancher on Debian 11 VM."
 last_modified_at: 2023-04-13T22:02:02-05:00
 categories:
   - Blog
