@@ -1,5 +1,5 @@
 ---
-title: "Post: Kubernetes node Rancheri jaoks."
+title: "Post: Rancher docker."
 last_modified_at: 2023-04-13T22:02:02-05:00
 categories:
   - Blog
@@ -9,23 +9,16 @@ tags:
   - standard
 ---
 
-## Kubernetes node Rancheri jaoks.
+## Rancher in docker on Debian 11
 
-Swap'i ei loo nii master'il, kui worker'il
+Rancher'i paigaldus Docker konteinerisse\
+Paigaldus Debian 11'le
 
-
-Master
 ```
-/               20G
-/var            20G
-/var/lib/etcd   1G
+/dev/vda1 /	20G
+/dev/vdc1 /data	32G
+/dev/vdb1 swap	2G
 ```
-Worker
-```
-/               20G
-/var            32-100G
-```
-
 Vajalikud draiverid:
 ```
 cat <<EOF | tee /etc/modules-load.d/k8s.conf
@@ -39,17 +32,13 @@ net.bridge.bridge-nf-call-iptables  = 1
 net.ipv4.ip_forward                 = 1
 net.bridge.bridge-nf-call-ip6tables = 1
 EOF
-````
 ```
-sysctl --system
+```
+sudo sysctl --system
 ```
 Keelame IPv6'e:
 ```
 echo "net.ipv6.conf.all.disable_ipv6 = 1" >> /etc/sysctl.conf
-```
-Master'il eemaldame etcd jaoks "lost+found"
-```
-rm -rf  /var/lib/etcd/*
 ```
 Vajalikud paketid
 ```
@@ -63,7 +52,7 @@ ning katkestad...(CTRL+C) luuakse .ssh
 ```
 #nano  .ssh/authorized_keys
 echo "ssh-ed25519 you_public_key" >> .ssh/authorized_keys
-````
+```
 Õigused paika:
 ```
 chmod 600 .ssh/authorized_keys
@@ -146,12 +135,25 @@ cat <<EOF > /etc/docker/daemon.json
 }
 EOF
 ```
-Edasi vajaliku käsu'd node liitmise jaoks Ransher'isse saad rancherist. Vaata, et etcd ja controlplane master'ile ning worker'ile ainult worker:\
-(a la master)
+Rancher'i paigaldus. Paigaldatakse konteinerina
+Teeme pv (persistent volume) jaoks kausta, et konteineri väliselt Ranceri andmed säilitada.
 ```
-docker run -d --privileged --restart=unless-stopped --net=host -v /etc/kubernetes:/etc/kubernetes -v /var/run:/var/run  rancher/rancher-agent:v2.7.1 --server https://192.168.1.102 --token zf2ql45sltvds7dft5p2k4c5hnnqdtvcwn --ca-checksum fe28b2a87ec6e72211f56ea5154c7770c6ce5c2 --etcd --controlplane
+mkdir /data/rancher
 ```
-(a la worker)
+Paigaldame Rancheri konteineri repost
 ```
-docker run -d --privileged --restart=unless-stopped --net=host -v /etc/kubernetes:/etc/kubernetes -v /var/run:/var/run  rancher/rancher-agent:v2.7.1 --server https://192.168.1.102 --token zf2ql45sltvds7dft5p2k4c5hnnqdtvcwn --ca-checksum fe28b2a87ec6e72211f56ea5154c7770c6ce5c2 --worker
+docker run -d --name rancher-server  -v /data/rancher:/var/lib/rancher --restart=unless-stopped -p 80:80 -p 443:443 --privileged rancher/rancher
+```
+Kontrollime
+```
+docker ps
+```
+Salvestame logi see on vajalik, kuna seal on aktiveerimise kood.
+```
+docker logs rancher-server > rancher.log
+grep Bootstrap rancher.log 
+```
+Konteineri terminal
+```
+docker exec -it rancher-server /bin/bash
 ```
