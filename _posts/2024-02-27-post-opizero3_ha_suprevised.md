@@ -12,7 +12,9 @@ tags:
 ## Home Assistant Supervised on Orange Pi Zero3
 
 This is a short guide and requires knowledge of working with linux.
+
 Since I don't trust the official image provided by Orange Pi, which is downloaded from google drive and has apt source against Chinese servers, we use Armbian.
+
 Download image:
 ```
 https://github.com/armbian/community/releases/download/24.2.0-trunk.540/Armbian_community_24.2.0-trunk.540_Orangepizero3_bookworm_current_6.6.16.img.xz
@@ -73,23 +75,34 @@ Login to you HA webUI
 ```
 https://192.168.1.xxx:8123
 ```
-Migration from old HA. 
+Migration from old HA.
+
 You need preinstall all addon's if you migrate like the previous one before full backup restore.
+
 You do not need to configure them, just install it.
+
+Like I do
+
 Additional steps: 
 1. Addon "Mosquitto broker"
 2. Addon "Terminal & SSH"
 3. HACS
 run Terminal
+```
 wget -O - https://get.hacs.xyz | bash -
+```
 Then follow by https://hacs.xyz/docs/configuration/basic
-3. Zigbee2mqtt: https://github.com/zigbee2mqtt/hassio-zigbee2mqtt#installation
-4. Additional Addon's
+3. Zigbee2mqtt: 
+```
+https://github.com/zigbee2mqtt/hassio-zigbee2mqtt#installation
+```
+4. Install the additional Addon's you had in the old HA
 ...
 5. Upload fullbackup
 6. Restore fullbackup
 
 Remove grap (all conteiners (addon's, etc) must be running before you do that)
+
 Don't do it if you don't know what it does:
 ```
 docker system prune -a
