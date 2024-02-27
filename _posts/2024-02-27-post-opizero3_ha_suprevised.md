@@ -11,6 +11,7 @@ tags:
 
 ## Home Assistant Supervised on Orange Pi Zero3
 
+Since I don't trust the official image provided by Orange Pi, which is downloaded from google drive and has apt source against Chinese servers, we use Armbian.
 Download image:
 ```
 https://github.com/armbian/community/releases/download/24.2.0-trunk.540/Armbian_community_24.2.0-trunk.540_Orangepizero3_bookworm_current_6.6.16.img.xz
