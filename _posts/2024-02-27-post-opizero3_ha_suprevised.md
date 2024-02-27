@@ -41,10 +41,13 @@ apt --fix-broken install
 Install HA os-agent:
 ```
 nano /etc/os-release
-Replace first line, must be
+```
+Replace first line, must be:
+```
 PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
 ...
 ```
+Downloadand install os-agent:
 ```
 wget https://github.com/home-assistant/os-agent/releases/download/1.6.0/os-agent_1.6.0_linux_aarch64.deb
 dpkg -i os-agent_1.6.0_linux_aarch64.deb
@@ -64,12 +67,13 @@ Wait and look when we have service listen on 8123
 ```
 ss -tulpn| grep 8123
 ```
-Login to HA webUI
+Login to you HA webUI
 ```
 https://192.168.1.xxx:8123
 ```
+Migration from old HA. 
 You need preinstall all addon's if you migrate like the previous one before full backup restore.
-You do not need to configure them, just istall.
+You do not need to configure them, just install it.
 Additional steps: 
 1. Addon "Mosquitto broker"
 2. Addon "Terminal & SSH"
@@ -83,8 +87,8 @@ Then follow by https://hacs.xyz/docs/configuration/basic
 5. Upload fullbackup
 6. Restore fullbackup
 
+Remove grap (all conteiners (addon's, etc) must be running before you do that)
 Don't do it if you don't know what it does:
-Remove grap (all conteiners (addon's, etc) must be running before you do that) :
 ```
 docker system prune -a
 ```
