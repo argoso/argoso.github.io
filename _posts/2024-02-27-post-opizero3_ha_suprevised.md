@@ -19,6 +19,11 @@ Download image:
 ```
 https://github.com/armbian/community/releases/download/24.2.0-trunk.540/Armbian_community_24.2.0-trunk.540_Orangepizero3_bookworm_current_6.6.16.img.xz
 ```
+new 
+```
+https://github.com/armbian/community/releases/download/24.5.0-trunk.123/Armbian_community_24.5.0-trunk.123_Orangepizero3_bookworm_current_6.6.20_minimal.img.xz
+```
+
 Install image to SD (balenaEther)
 
 Boot and configure you new installed system (network, hostname, updates, etc)
